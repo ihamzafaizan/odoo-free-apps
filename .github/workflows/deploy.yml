@@ -11,13 +11,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
     
       - name: Setup SSH
-        uses: webfactory/ssh-agent@v0.5.3
+        uses: webfactory/ssh-agent@v0.5.4
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
+    
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -H 46.250.234.207 >> ~/.ssh/known_hosts  # Add your server's IP address here
+    
       - name: Deploy to server
         run: |
           ssh root@46.250.234.207 <<EOF
@@ -26,3 +30,4 @@ jobs:
           git pull origin master  # Pull latest code
           sudo systemctl start client1.service  # Restart Odoo service
           EOF
+
