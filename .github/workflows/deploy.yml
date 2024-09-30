@@ -30,3 +30,6 @@ jobs:
           git pull origin master  # Pull latest code
           sudo systemctl start client1.service  # Restart Odoo service
           EOF
+
+
+
