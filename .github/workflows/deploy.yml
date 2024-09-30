@@ -3,7 +3,7 @@ name: Deploy to Server
 on:
   push:
     branches:
-      - master  # Change to your branch name if different
+      - master
 
 jobs:
   deploy:
@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+    
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.5.3
         with:
@@ -20,10 +20,9 @@ jobs:
 
       - name: Deploy to server
         run: |
-          ssh root@46.250.234.207 << 'EOF'
+          ssh root@46.250.234.207 <<EOF
           cd Odoo/odoo_17/env/client1/addons/odoo-free-apps
-	  sudo systemctl stop client1.service # stop instance
+          sudo systemctl stop client1.service  # stop instance
           git pull origin master  # Pull latest code
           sudo systemctl start client1.service  # Restart Odoo service
           EOF
-
