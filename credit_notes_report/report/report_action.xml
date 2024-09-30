@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="paperformat_credit_notes_report" model="report.paperformat">
+        <field name="name">Customized Paper Format</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">297</field>
+        <field name="page_width">210</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">10</field>
+        <field name="margin_bottom">10</field>
+        <field name="margin_left">0</field>
+        <field name="margin_right">0</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">0</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="credit_notes_report_action" model="ir.actions.report">
+        <field name="name">Credit Note</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">credit_notes_report.credit_notes_report</field>
+        <field name="report_file">template.xml</field>
+        <field name="paperformat_id" ref="paperformat_credit_notes_report"/>
+        <field name="print_report_name">'Credit Note - %s - %s' % (object.partner_id.name or '', object.name)</field>
+        <field name="binding_model_id" eval="False"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="credit_notes_report.action_report_template" model="ir.actions.report">
+        <field name="name">Credit Notes Report</field>
+        <field name="model">account.move</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">credit_notes_report.credit_notes_report</field>
+        <field name="report_file">template.xml</field>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
