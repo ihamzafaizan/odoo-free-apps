@@ -23,7 +23,7 @@ jobs:
           ssh root@46.250.234.207 << 'EOF'
           cd Odoo/odoo_17/env/client1/addons
 	  sudo systemctl stop client1.service # stop instance
-          git pull origin master  # Pull latest code
+          git pull origin main  # Pull latest code
           sudo systemctl start client1.service  # Restart Odoo service
           EOF
 
