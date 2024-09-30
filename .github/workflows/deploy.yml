@@ -21,7 +21,7 @@ jobs:
       - name: Deploy to server
         run: |
           ssh root@46.250.234.207 << 'EOF'
-          cd Odoo/odoo_17/env/client1/addons
+          cd Odoo/odoo_17/env/client1/addons/odoo-free-apps
 	  sudo systemctl stop client1.service # stop instance
           git pull origin main  # Pull latest code
           sudo systemctl start client1.service  # Restart Odoo service
