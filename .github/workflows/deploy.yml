@@ -1,21 +1,32 @@
-steps:
-  - name: Checkout code
-    uses: actions/checkout@v2
+name: Deploy to Server
 
-  - name: Setup SSH
-    uses: webfactory/ssh-agent@v0.5.3
-    with:
-      ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+on:
+  push:
+    branches:
+      - master  # This can be any branch you want to trigger the workflow on
 
-  - name: Add server to known_hosts
-    run: |
-      ssh-keyscan -H 46.250.234.207 >> ~/.ssh/known_hosts
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-  - name: Deploy to server
-    run: |
-      ssh root@46.250.234.207 << 'EOF'
-      cd Odoo/odoo_17/env/client1/addons/odoo-free-apps
-      sudo systemctl stop client1.service # stop instance
-      git pull origin master  # Pull latest code
-      sudo systemctl start client1.service  # Restart Odoo service
-      EOF
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add server to known_hosts
+        run: |
+          ssh-keyscan -H 46.250.234.207 >> ~/.ssh/known_hosts
+
+      - name: Deploy to server
+        run: |
+          ssh root@46.250.234.207 << 'EOF'
+          cd Odoo/odoo_17/env/client1/addons/odoo-free-apps  # Update this path as needed
+          sudo systemctl stop client1.service  # stop instance
+          git pull origin master  # Pull latest code
+          sudo systemctl start client1.service  # Restart Odoo service
+          EOF
